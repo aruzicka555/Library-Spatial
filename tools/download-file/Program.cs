@@ -118,7 +118,7 @@ namespace Landis.Tools.DownloadFile
             Console.Write("0%");
             client.DownloadFileAsync(uri, fileName);
             while (! downloadComplete)
-                Thread.Sleep(500);  // Wait 1/2 of a second
+                Thread.Sleep(1000);  // Wait a second
         }
 
         //---------------------------------------------------------------------
@@ -142,8 +142,6 @@ namespace Landis.Tools.DownloadFile
         public static void DownloadProgress(object sender,
                                             DownloadProgressChangedEventArgs e)
         {
-            if (downloadComplete)
-                return;
             int currentPercentage = e.ProgressPercentage;
             while (displayedPercentage + displayIncrement <= currentPercentage) {
                 displayedPercentage += displayIncrement;
