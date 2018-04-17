@@ -208,5 +208,6 @@ FakesAssemblies/
 # Visual Studio .csproj.user
 *.csproj.user
 
-# .vs folder
-.vs/
+# .vs folders
+\#.vs/
+\#.csproj.user
