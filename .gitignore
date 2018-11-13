@@ -204,3 +204,10 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+# Visual Studio .csproj.user
+*.csproj.user
+
+# .vs folders
+\#.vs/
+\#.csproj.user
