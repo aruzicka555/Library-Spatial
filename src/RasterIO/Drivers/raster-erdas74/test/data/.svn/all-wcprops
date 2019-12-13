@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/data
+END
+fred.gis
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/data/fred.gis
+END
+bad.gis
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/data/bad.gis
+END
+fred.lan
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/data/fred.lan
+END

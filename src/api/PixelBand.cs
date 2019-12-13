@@ -42,7 +42,7 @@ namespace Landis.SpatialModeling
         /// <param name="typeCode">
         /// A <see cref="System.TypeCode"/>
         /// </param>
-        protected PixelBand(string          description,
+        protected PixelBand(string description,
                             System.TypeCode typeCode)
         {
             Description = description;

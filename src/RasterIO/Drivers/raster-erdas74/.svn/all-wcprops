@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74
+END
+AssemblyInfo.cs
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/AssemblyInfo.cs
+END
+references.txt
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/references.txt
+END
+default.build
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/default.build
+END
+Projections.cs
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/Projections.cs
+END
+InputRaster.cs
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/InputRaster.cs
+END
+OutputRaster.cs
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/OutputRaster.cs
+END
+ErdasImageFile.cs
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/ErdasImageFile.cs
+END
+RWFlag.cs
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/RWFlag.cs
+END
+Library.cs
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/Library.cs
+END

@@ -1,7 +1,3 @@
-// Contributors:
-//   James Domingo, UW-Madison, Forest Landscape Ecology Lab
-//   James Domingo, Green Code LLC
-
 namespace Landis.SpatialModeling
 {
     /// <summary>
@@ -9,22 +5,20 @@ namespace Landis.SpatialModeling
     /// in row-major order, from the upper-left corner to the lower-right
     /// corner.
     /// </summary>
-    public interface IInputRaster<TPixel>
+    public interface IInputRaster<T>
         : IRaster
-        where TPixel : Pixel, new()
+        where T : Pixel, new()
     {
         /// <summary>
         /// The single-pixel buffer for reading pixels to the raster. 
         /// </summary>
-        TPixel BufferPixel
+        T BufferPixel
         {
             get;
         }
 
-        //---------------------------------------------------------------------
-
         /// <summary>
-        /// Reads the next pixel from the raster into the buffer pixel.
+        /// Reads the next pixel from the raster.
         /// </summary>
         /// <exception cref="System.IO.EndOfStreamException">
         /// There are no more pixels left to read.
@@ -36,6 +30,6 @@ namespace Landis.SpatialModeling
         /// This method was called too many times (more than the number of
         /// pixels in the raster).
         /// </exception>
-        void ReadBufferPixel();
+        T ReadBufferPixel();
     }
 }

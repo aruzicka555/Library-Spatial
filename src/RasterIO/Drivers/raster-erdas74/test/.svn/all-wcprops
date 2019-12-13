@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test
+END
+AssemblyInfo.cs
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/AssemblyInfo.cs
+END
+references.txt
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/references.txt
+END
+FredLanPixel.cs
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/FredLanPixel.cs
+END
+default.build
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/default.build
+END
+Erdas74Pixel16.cs
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/Erdas74Pixel16.cs
+END
+Erdas74Pixel8.cs
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/Erdas74Pixel8.cs
+END
+InputRasterTests.cs
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/InputRasterTests.cs
+END
+ErdasImageFileTests.cs
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/ErdasImageFileTests.cs
+END
+OutputRasterTests.cs
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/OutputRasterTests.cs
+END
+LibraryTests.cs
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/LibraryTests.cs
+END
+Data.cs
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/repos/landis/!svn/ver/361/core/tags/raster-v1/raster-erdas74/test/Data.cs
+END

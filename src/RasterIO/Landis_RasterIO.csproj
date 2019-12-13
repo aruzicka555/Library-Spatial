@@ -1,24 +1,27 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"> 
-  
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <RootNamespace>Landis.RasterIO</RootNamespace>
-    <AssemblyName>Landis.RasterIO</AssemblyName>
-    <AssemblyDescription>Raster I/O for spatial modeling</AssemblyDescription>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>LANDIS-II Foundation</Authors>
-    <Company>LANDIS-II Foundation</Company>
-    <Description>Raster I/O for spatial modeling</Description>
-    <Copyright>LANDIS-II Foundation</Copyright>
-    <PackageProjectUrl>https://sites.google.com/site/landismodel/home</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/LANDIS-II-Foundation/Library-Spatial</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>LANDIS-II;Landis;RasterIO</PackageTags>
-    <NeutralLanguage>English</NeutralLanguage>
+    <AssemblyName>Landis.RasterIO</AssemblyName>
+    <RootNamespace>Landis.RasterIO</RootNamespace>
+    <Version>2.0.0</Version>
   </PropertyGroup>
-  
+
+  <ItemGroup>
+    <Compile Remove="Drivers\raster-erdas74\test\**" />
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="Drivers\raster-erdas74\test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="Drivers\raster-erdas74\test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Landis.Utilities" Version="2.0.0" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\api\Landis_SpatialModeling.csproj" />
   </ItemGroup>
-  
+
 </Project>

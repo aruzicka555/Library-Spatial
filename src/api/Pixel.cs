@@ -37,9 +37,10 @@ namespace Landis.SpatialModeling
         /// </param>
         protected void SetBands(params PixelBand[] bands)
         {
-            this.bands = (PixelBand[]) bands.Clone();
+            this.bands = (PixelBand[])bands.Clone();
             // Assign band numbers
-            for (int i = 0; i < this.bands.Length; i++) {
+            for (int i = 0; i < this.bands.Length; i++)
+            {
                 this.bands[i].Number = i + 1;
             }
         }
@@ -47,7 +48,8 @@ namespace Landis.SpatialModeling
         /// <summary>
         /// The number of bands in the pixel.
         /// </summary>
-        public int Count {
+        public int BandCount
+        {
             get { return bands.Length; }
         }
 
