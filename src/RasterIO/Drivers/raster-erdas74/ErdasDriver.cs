@@ -27,7 +27,7 @@ namespace Landis.Raster.Erdas74
         ///         
         /// </summary>
         public IInputRaster<T> OpenRaster<T>(string path)
-            where T : Pixel, new()
+            where T : IPixel, new()
         {
             // open image file for reading
             ErdasImageFile image = new ErdasImageFile(path, RWFlag.Read);
@@ -35,27 +35,27 @@ namespace Landis.Raster.Erdas74
             // construct an InputRaster using that
             return new ErdasInputRaster<T>(image, path);
         }
-        
+
         /// <summary>
         ///         
         /// </summary>
         public IOutputRaster<T> CreateRaster<T>(string path,
                                             Dimensions dimensions,
                                             IMetadata metadata)
-            where T : Pixel, new()
+            where T : IPixel, new()
         {
             // extract necessary parameters from pixel for image creation
             T desiredLayout = new T();
-            
+
             int bandCount = desiredLayout.BandCount;
 
             System.TypeCode bandType = desiredLayout[0].TypeCode;
-            
+
             // open image file for writing
             ErdasImageFile image
               = new
-                ErdasImageFile(path,dimensions,bandCount,bandType,metadata);
-                
+                ErdasImageFile(path, dimensions, bandCount, bandType, metadata);
+
             // construct an OutputRaster from that
             return new ErdasOutputRaster<T>(image, path, dimensions, metadata);
         }

@@ -1,67 +1,69 @@
 // Contributors:
 //   James Domingo, Green Code LLC
 
+using System;
+
 namespace Landis.SpatialModeling
 {
-    /// <summary>
-    /// Base class for types of pixels.
-    /// <example>
-    /// </example>
-    /// </summary>
     public abstract class Pixel
+        : IPixel
     {
-        PixelBand[] bands;
+        private IPixelBand[] bands;
 
-        /// <summary>
-        /// Sets the bands for the pixel.  Derived classes should call this
-        /// method in their constructors.
-        /// </summary>
-        /// <remarks>
-        /// <example>
-        /// <code><![CDATA[
-        /// public class MyPixel : Pixel
-        /// {
-        ///     public Band<float> Slope  = "slope : tangent of inclination angle (rise / run)";
-        ///     public Band<short> Aspect = "aspect : degrees clockwise from north (0 to 359)";
-        ///
-        ///     public MyPixel()
-        ///     {
-        ///         SetBands(Slope, Aspect);
-        ///     }
-        /// }
-        /// ]]></code>
-        /// </example>
-        /// </remarks>
-        /// <param name="bands">
-        /// An array of <see cref="PixelBand"/>
-        /// </param>
-        protected void SetBands(params PixelBand[] bands)
+        //---------------------------------------------------------------------
+
+        public int BandCount
         {
-            this.bands = (PixelBand[])bands.Clone();
-            // Assign band numbers
-            for (int i = 0; i < this.bands.Length; i++)
+            get
             {
-                this.bands[i].Number = i + 1;
+                return bands.Length;
             }
         }
 
-        /// <summary>
-        /// The number of bands in the pixel.
-        /// </summary>
-        public int BandCount
+        //---------------------------------------------------------------------
+
+        public IPixelBand this[int index]
         {
-            get { return bands.Length; }
+            get
+            {
+                return bands[index];
+            }
         }
 
+        //---------------------------------------------------------------------
+
         /// <summary>
-        /// Gets the pixel band by its band number.
+        /// Sets the pixel's bands.
         /// </summary>
-        /// <param name="bandNumber">
-        /// A <see cref="System.Int32"/>
+        /// <param name="band0">
+        /// The first band.
         /// </param>
-        public PixelBand this[int bandNumber]
+        /// <param name="otherBands">
+        /// Other optional bands.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// One or more of the bands is null.
+        /// </exception>
+        protected void SetBands(IPixelBand band0,
+                                params IPixelBand[] otherBands)
         {
-            get { return bands[bandNumber - 1]; }
+            if (band0 == null)
+                throw new ArgumentNullException("band 0 is null");
+            if (otherBands == null)
+                //  The method was called as SetBands(band0, null)
+                throw new ArgumentNullException("band 1 is null");
+            int bandIndex = 0;
+            foreach (IPixelBand band in otherBands)
+            {
+                bandIndex++;
+                if (band == null)
+                    throw new ArgumentNullException(string.Format("band {0} is null",
+                                                                  bandIndex));
+            }
+
+            bands = new IPixelBand[1 + otherBands.Length];
+            bands[0] = band0;
+            otherBands.CopyTo(bands, 1);
         }
     }
 }

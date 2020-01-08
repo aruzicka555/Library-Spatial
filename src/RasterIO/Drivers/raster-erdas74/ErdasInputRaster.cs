@@ -13,7 +13,7 @@ namespace Landis.Raster.Erdas74
     //   throws an exception. Reading too few pixels is not checked.
     /// </summary>
     public class ErdasInputRaster<T> : InputRaster, IInputRaster<T>
-        where T : Pixel, new()
+        where T : IPixel, new()
     {
         private ErdasImageFile image; // the underlying raster image
         private T pixel;  // a pixel: used for xfering data
@@ -31,7 +31,7 @@ namespace Landis.Raster.Erdas74
             // make sure we've got valid input
             if (this.image == null)
                 throw new System.ApplicationException("InputRaster constructor passed null image");
-                
+
             // check if trying to read a WriteOnly file            
             if (this.image.Mode == RWFlag.Write)
                 throw new System.ApplicationException("InputRaster can't be created for WriteOnly image");
@@ -44,8 +44,8 @@ namespace Landis.Raster.Erdas74
             // check bandtype compatibilities                
             for (int i = 0; i < pixelBandCount; i++)
             {
-                PixelBand band = this.pixel[i];
-                
+                IPixelBand band = this.pixel[i];
+
                 if (image.BandType == System.TypeCode.Byte)
                 {
                     if (band.TypeCode != System.TypeCode.Byte)
@@ -62,9 +62,9 @@ namespace Landis.Raster.Erdas74
                 //    ErdasImageFile construction code should have
                 //    thrown an exception earlier
             }
-            
+
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -77,16 +77,16 @@ namespace Landis.Raster.Erdas74
         /// Read a pixel from the InputRaster
         /// Must not call more than rows*cols times
         /// </summary>
-        public T ReadBufferPixel()
+        public T ReadPixel()
         {
             if (disposed)
                 throw CreateObjectDisposedException();
-            
+
             this.image.ReadPixel(this.pixel);
-            
+
             return this.pixel;
         }
-        
+
         /// <summary>
         /// Destructor - close resources if needed
         /// </summary>

@@ -7,16 +7,8 @@ namespace Landis.SpatialModeling
     /// </summary>
     public interface IInputRaster<T>
         : IRaster
-        where T : Pixel, new()
+        where T : IPixel, new()
     {
-        /// <summary>
-        /// The single-pixel buffer for reading pixels to the raster. 
-        /// </summary>
-        T BufferPixel
-        {
-            get;
-        }
-
         /// <summary>
         /// Reads the next pixel from the raster.
         /// </summary>
@@ -30,6 +22,6 @@ namespace Landis.SpatialModeling
         /// This method was called too many times (more than the number of
         /// pixels in the raster).
         /// </exception>
-        T ReadBufferPixel();
+        T ReadPixel();
     }
 }

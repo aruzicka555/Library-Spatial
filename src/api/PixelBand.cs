@@ -1,92 +1,137 @@
 // Contributors:
 //   James Domingo, Green Code LLC
+using Landis.Utilities;
 
 namespace Landis.SpatialModeling
 {
     /// <summary>
-    /// Base class for the bands in a pixel.
+    /// An individual band value in a raster pixel.
     /// </summary>
-    public abstract class PixelBand
+    public class PixelBand<T, TByteMethods>
+        : IPixelBandValue<T>
+        where T : struct
+        where TByteMethods : IByteMethods<T>, new()
     {
-        /// <summary>
-        /// Description of what the pixel band represents.  Should include
-        /// the band's name, what it represents, and its units.
-        /// <example>
-        /// "slope : tangent of inclination angle (rise / run)"
-        /// </example>
-        /// </summary>
-        public string Description { get; private set; }
+        private static IByteMethods<T> byteMethods;
+        private T bandValue;
+
+        //---------------------------------------------------------------------
 
         /// <summary>
-        /// The band's position in the pixel.  The first band is numbered 1,
-        /// the second band is numbered 2, and so on.
+        /// The band's value.
         /// </summary>
-        public int Number { get; internal set; }
-
-        /// <summary>
-        /// The code representing the type of data the pixel band contains.
-        /// </summary>
-        public System.TypeCode TypeCode { get; private set; }
-
-        /// <summary>
-        /// The size of the pixel band in bytes.
-        /// </summary>
-        public int Size { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="description">
-        /// A <see cref="System.String"/>
-        /// </param>
-        /// <param name="typeCode">
-        /// A <see cref="System.TypeCode"/>
-        /// </param>
-        protected PixelBand(string description,
-                            System.TypeCode typeCode)
+        public T Value
         {
-            Description = description;
-            TypeCode = typeCode;
-            Size = ComputeSize(typeCode);
+            get
+            {
+                return bandValue;
+            }
+
+            set
+            {
+                bandValue = value;
+            }
         }
 
-        /// <summary>
-        /// Computes the size in bytes for a pixel band's data type.
-        /// </summary>
-        /// <param name="typeCode">
-        /// A <see cref="System.TypeCode"/> representing the pixel band's data
-        /// type.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.Int32"/>
-        /// </returns>
-        /// <exception cref="System.ArgumentException">Thrown if
-        /// <paramref name="typeCode"/> is not Byte, SByte, Int16, UInt16,
-        /// Int32, UInt32, Single or Double.
-        /// </exception>
-        public static int ComputeSize(System.TypeCode typeCode)
+        //---------------------------------------------------------------------
+
+        static PixelBand()
         {
-            switch (typeCode)
+            byteMethods = new TByteMethods();
+        }
+
+        //---------------------------------------------------------------------
+
+        /// <summary>
+        /// Initializes a new instance with the default value (0) for the
+        /// band's data type.
+        /// </summary>
+        public PixelBand()
+        {
+        }
+
+        //---------------------------------------------------------------------
+
+        /// <summary>
+        /// Initializes a new instance with a specific  value.
+        /// </summary>
+        public PixelBand(T initialValue)
+        {
+            bandValue = initialValue;
+        }
+
+        //---------------------------------------------------------------------
+
+        /// <summary>
+        /// Converts a pixel band to its underlying data type.
+        /// </summary>
+        public static implicit operator T(PixelBand<T, TByteMethods> pixelBand)
+        {
+            return pixelBand.bandValue;
+        }
+
+        //---------------------------------------------------------------------
+
+        public System.TypeCode TypeCode
+        {
+            get
             {
-                case System.TypeCode.Byte:
-                case System.TypeCode.SByte:
-                    return 1;
-
-                case System.TypeCode.Int16:
-                case System.TypeCode.UInt16:
-                    return 2;
-
-                case System.TypeCode.Int32:
-                case System.TypeCode.UInt32:
-                case System.TypeCode.Single:
-                    return 4;
-
-                case System.TypeCode.Double:
-                    return 8;
-
-                default:
-                    throw new System.ArgumentException("Invalid type for pixel band");
+                return System.Type.GetTypeCode(typeof(T));
             }
+        }
+
+        //---------------------------------------------------------------------
+
+        public byte[] GetBytes()
+        {
+            return byteMethods.ToBytes(bandValue);
+        }
+
+        //---------------------------------------------------------------------
+
+        public void SetBytes(byte[] bytes,
+                             int startIndex)
+        {
+            try
+            {
+                bandValue = byteMethods.FromBytes(bytes, startIndex);
+            }
+            catch (System.ArgumentException exc)
+            {
+                //  Documentation for System.BitConverter.ToXXX says that
+                //  ArgumentOutOfRangeException should be thrown for start
+                //	indexes that are too big, but ArgumentException is being
+                //	thrown instead.
+                int size;
+                switch (TypeCode)
+                {
+                    case System.TypeCode.Byte:
+                    case System.TypeCode.SByte:
+                        size = 1;
+                        break;
+                    case System.TypeCode.Int16:
+                    case System.TypeCode.UInt16:
+                        size = 2;
+                        break;
+                    case System.TypeCode.Double:
+                        size = 8;
+                        break;
+                    default:  // Int32, UInt32, Single
+                        size = 4;
+                        break;
+                }
+                if (bytes != null && (startIndex + size - 1) > (bytes.Length - 1))
+                    throw new System.ArgumentOutOfRangeException(exc.Message);
+                else
+                    throw;
+            }
+        }
+
+        //---------------------------------------------------------------------
+
+        public override string ToString()
+        {
+            return bandValue.ToString();
         }
     }
 }

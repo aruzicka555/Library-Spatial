@@ -18,30 +18,30 @@ namespace Landis.Raster.Erdas74
     {
         // ERDAS GIS/LAN file header size
         const int HeaderSize = 128;
-        
+
         // Metadata ID's
-        public const string RASTER_ULX  = "Raster Upper Left X";
-        public const string RASTER_ULY  = "Raster Upper Left Y";
-        public const string WORLD_ULX   = "World Upper Left X";
-        public const string WORLD_ULY   = "World Upper Left Y";
-        public const string X_SCALE     = "X Scale";
-        public const string Y_SCALE     = "Y Scale";
+        public const string RASTER_ULX = "Raster Upper Left X";
+        public const string RASTER_ULY = "Raster Upper Left Y";
+        public const string WORLD_ULX = "World Upper Left X";
+        public const string WORLD_ULY = "World Upper Left Y";
+        public const string X_SCALE = "X Scale";
+        public const string Y_SCALE = "Y Scale";
         public const string SCALE_UNITS = "Scale Units";
-        public const string PROJECTION  = "Projection";
-        
+        public const string PROJECTION = "Projection";
+
         // Instance variables
-        Dimensions       dimensions;  // size of map in rows & cols
-        System.TypeCode  bandType;    // the type of each band in raster
-        int              bandSize;    // the number of bytes per band entry
-        int              bandCount;   // the number of bands
-        int              currPixel;   // id of current read/write pixel
-        int              totalPixels; // rows*cols
-        IMetadata        metadata;    // the metadata assoc w/ raster
-        FileStream       file;        // the underlying raster file
-        BinaryWriter     fileWriter;  // helper
-        BinaryReader     fileReader;  // helper
-        bool             open;        // file status: true if open
-        RWFlag           mode;        // file open mode: Read or Write
+        Dimensions dimensions;  // size of map in rows & cols
+        System.TypeCode bandType;    // the type of each band in raster
+        int bandSize;    // the number of bytes per band entry
+        int bandCount;   // the number of bands
+        int currPixel;   // id of current read/write pixel
+        int totalPixels; // rows*cols
+        IMetadata metadata;    // the metadata assoc w/ raster
+        FileStream file;        // the underlying raster file
+        BinaryWriter fileWriter;  // helper
+        BinaryReader fileReader;  // helper
+        bool open;        // file status: true if open
+        RWFlag mode;        // file open mode: Read or Write
 
         /// <summary>
         /// Create a file given specs        
@@ -53,28 +53,28 @@ namespace Landis.Raster.Erdas74
                               IMetadata metadata)
         {
             // set instance variables
-            this.open        = false;
-            this.mode        = RWFlag.Write;
-            this.dimensions  = dimensions;
-            this.bandType    = bandType;
-            this.bandCount   = bandCount;
-            this.currPixel   = 0;
-            this.totalPixels = dimensions.Rows*dimensions.Columns;
-            this.metadata    = metadata;
-            
+            this.open = false;
+            this.mode = RWFlag.Write;
+            this.dimensions = dimensions;
+            this.bandType = bandType;
+            this.bandCount = bandCount;
+            this.currPixel = 0;
+            this.totalPixels = dimensions.Rows * dimensions.Columns;
+            this.metadata = metadata;
+
             // if filename does not end in .gis or .lan throw exception
             string extension = Path.GetExtension(filename).ToLower();
             if (!(extension.Equals(".gis")) && !(extension.Equals(".lan")))
                 throw new System.ApplicationException("Erdas file must have either GIS or LAN as extension");
-                
+
             // if dimensions are messed up throw exception
             if ((dimensions.Rows < 1) || (dimensions.Columns < 1))
                 throw new System.ApplicationException("Erdas file given invalid dimensions");
-                
+
             // if bandCount messed up throw exception
             if ((bandCount < 1) || (bandCount > 0xffff))
                 throw new System.ApplicationException("Erdas file given invalid band count");
-            
+
             // more bandCount checking
             if (extension.Equals(".gis"))
             {
@@ -83,7 +83,7 @@ namespace Landis.Raster.Erdas74
                 if (bandType != System.TypeCode.Byte)
                     throw new System.ApplicationException("Erdas GIS files only suupport byte for bandtype");
             }
-                
+
             // if bandType not System.Byte or System.UInt16 throw exception
             if (bandType == System.TypeCode.Byte)
                 this.bandSize = 1;
@@ -91,25 +91,25 @@ namespace Landis.Raster.Erdas74
                 this.bandSize = 2;
             else
                 throw new System.ApplicationException("Erdas file given unsupported band type");
-             
+
             // open file for writing
-            this.file = new FileStream(filename,FileMode.OpenOrCreate);
+            this.file = new FileStream(filename, FileMode.OpenOrCreate);
             this.fileWriter = new BinaryWriter(this.file);
             this.open = true;
-            
+
             // write header (using metadata whenever possible)
-            
+
             try
             {
 
                 // sentinel
                 byte[] sentinel = new byte[6];
-                sentinel[0] = (byte) 'H';
-                sentinel[1] = (byte) 'E';
-                sentinel[2] = (byte) 'A';
-                sentinel[3] = (byte) 'D';
-                sentinel[4] = (byte) '7';
-                sentinel[5] = (byte) '4';
+                sentinel[0] = (byte)'H';
+                sentinel[1] = (byte)'E';
+                sentinel[2] = (byte)'A';
+                sentinel[3] = (byte)'D';
+                sentinel[4] = (byte)'7';
+                sentinel[5] = (byte)'4';
                 this.fileWriter.Write(sentinel);
 
                 // packing
@@ -139,15 +139,15 @@ namespace Landis.Raster.Erdas74
                 // xstart
                 System.Int32 xstart = 0;
                 if ((metadata != null) &&
-                    (metadata.TryGetValue<System.Int32>(RASTER_ULX,ref xstart)))
-                    {
-                    }
+                    (metadata.TryGetValue<System.Int32>(RASTER_ULX, ref xstart)))
+                {
+                }
                 this.fileWriter.Write(xstart);
 
                 // ystart
                 System.Int32 ystart = 0;
                 if ((metadata != null) &&
-                    (metadata.TryGetValue<System.Int32>(RASTER_ULY,ref ystart)))
+                    (metadata.TryGetValue<System.Int32>(RASTER_ULY, ref ystart)))
                 {
                 }
                 this.fileWriter.Write(ystart);
@@ -160,7 +160,7 @@ namespace Landis.Raster.Erdas74
                 System.UInt16 maptyp = 99;  // 99 means NONE
                 string projection = null;
                 if ((metadata != null) &&
-                    (metadata.TryGetValue<string>(PROJECTION,ref projection)))
+                    (metadata.TryGetValue<string>(PROJECTION, ref projection)))
                 {
                     int projNum = Projections.find(projection);
                     if (projNum != -1)
@@ -179,14 +179,14 @@ namespace Landis.Raster.Erdas74
                 // iautyp : first need xcell and ycell and then acre
                 System.Single xcell = 0;
                 if ((metadata != null) &&
-                    (metadata.TryGetValue<System.Single>(X_SCALE,ref xcell)))
+                    (metadata.TryGetValue<System.Single>(X_SCALE, ref xcell)))
                 {
                 }
                 if (maptyp == 99)
                     xcell = 0;
                 System.Single ycell = 0;
                 if ((metadata != null) &&
-                    (metadata.TryGetValue<System.Single>(Y_SCALE,ref ycell)))
+                    (metadata.TryGetValue<System.Single>(Y_SCALE, ref ycell)))
                 {
                 }
                 if (maptyp == 99)
@@ -203,7 +203,7 @@ namespace Landis.Raster.Erdas74
                         acre = xcell * ycell;
                         // acre = sq.feet at this pt
                         //   so now convert to acres
-                        acre = (float) ((double)acre * 0.0000229568411386593);
+                        acre = (float)((double)acre * 0.0000229568411386593);
                         break;
                     default: //  dist unit == meters
                         iautyp = 2;  // default to hectares
@@ -221,7 +221,7 @@ namespace Landis.Raster.Erdas74
                 // xmap
                 System.Single xmap = 0;
                 if ((metadata != null) &&
-                    (metadata.TryGetValue<System.Single>(WORLD_ULX,ref xmap)))
+                    (metadata.TryGetValue<System.Single>(WORLD_ULX, ref xmap)))
                 {
                 }
                 this.fileWriter.Write(xmap);
@@ -229,7 +229,7 @@ namespace Landis.Raster.Erdas74
                 // ymap
                 System.Single ymap = 0;
                 if ((metadata != null) &&
-                    (metadata.TryGetValue<System.Single>(WORLD_ULY,ref ymap)))
+                    (metadata.TryGetValue<System.Single>(WORLD_ULY, ref ymap)))
                 {
                 }
                 this.fileWriter.Write(ymap);
@@ -254,7 +254,7 @@ namespace Landis.Raster.Erdas74
                 throw;
             }
         }
-        
+
         /// <summary>
         /// Open an existing file
         /// </summary>
@@ -262,14 +262,14 @@ namespace Landis.Raster.Erdas74
         {
             this.open = false;
             this.mode = mode;
-            
+
             // if filename does not end in .gis or .lan throw exception
             string extension = Path.GetExtension(filename).ToLower();
             if (!(extension.Equals(".gis")) && !(extension.Equals(".lan")))
                 throw new System.ApplicationException("Erdas file must have either GIS or LAN as extension");
-                
+
             // open file
-            this.file = new FileStream(filename,FileMode.Open);
+            this.file = new FileStream(filename, FileMode.Open);
             this.fileReader = new BinaryReader(this.file);
             this.open = true;
 
@@ -288,7 +288,7 @@ namespace Landis.Raster.Erdas74
                     (sentinel[3] != (byte)'D') ||
                     (sentinel[4] != (byte)'7') ||
                     (sentinel[5] != (byte)'4'))
-                    throw new System.ApplicationException(filename+" is not an ERDAS 7.4 compatible image file");
+                    throw new System.ApplicationException(filename + " is not an ERDAS 7.4 compatible image file");
 
                 // packing
                 System.UInt16 ipack = this.fileReader.ReadUInt16();
@@ -359,28 +359,28 @@ namespace Landis.Raster.Erdas74
                 metadata[Y_SCALE] = ycell;
 
                 // construct instance variables based upon hedaer info
-                this.dimensions  = new Dimensions((int)irows,(int)icols);
+                this.dimensions = new Dimensions((int)irows, (int)icols);
                 if (ipack == 0)
                 {
-                    this.bandType    = System.TypeCode.Byte;
-                    this.bandSize    = 1;
+                    this.bandType = System.TypeCode.Byte;
+                    this.bandSize = 1;
                 }
                 else  // ipack == 2 due to earlier screening
                 {
-                    this.bandType    = System.TypeCode.UInt16;
-                    this.bandSize    = 2;
+                    this.bandType = System.TypeCode.UInt16;
+                    this.bandSize = 2;
                 }
-                this.bandCount   = nbands;
-                this.currPixel   = 0;
+                this.bandCount = nbands;
+                this.currPixel = 0;
                 this.totalPixels = (int)irows * (int)icols;
-                this.metadata    = metadata;
+                this.metadata = metadata;
 
                 if (mode == RWFlag.Write)
                 {
                     this.fileReader.Close();
                     this.fileReader = null;
                     // need to reopen stream - fileReader.Close() shuts it
-                    this.file = new FileStream(filename,FileMode.Open);
+                    this.file = new FileStream(filename, FileMode.Open);
                     this.fileWriter = new BinaryWriter(this.file);
                 }
             }
@@ -390,18 +390,18 @@ namespace Landis.Raster.Erdas74
                 throw;
             }
         }
-        
+
         /// <summary>
         /// Write a pixel to the file. Assumes pixels will be written
         /// by the caller consecutively from upper left to bottom
         /// right a row at a time
         /// </summary>
-        public void WritePixel(Pixel pixel)
+        public void WritePixel(IPixel pixel)
         {
             try
             {
                 if ((fileWriter == null) || (!this.open))
-                     throw new System.ApplicationException("Raster not open for writing");
+                    throw new System.ApplicationException("Raster not open for writing");
 
                 if (currPixel >= totalPixels)
                     throw new System.ApplicationException("Writing beyond end of pixel data");
@@ -409,12 +409,12 @@ namespace Landis.Raster.Erdas74
                 int bandCount = pixel.BandCount;
                 for (int bandNum = 0; bandNum < bandCount; bandNum++)
                 {
-                    PixelBand band = pixel[bandNum];
+                    IPixelBand band = pixel[bandNum];
 
                     // calc this pixelband's location in file
-                    int location = PixelBandLocation(currPixel,bandNum);
+                    int location = PixelBandLocation(currPixel, bandNum);
 
-                    this.fileWriter.Seek(location,SeekOrigin.Begin);
+                    this.fileWriter.Seek(location, SeekOrigin.Begin);
 
                     this.fileWriter.Write(band.GetBytes());
                 }
@@ -433,12 +433,12 @@ namespace Landis.Raster.Erdas74
         /// by the caller consecutively from upper left to bottom
         /// right a row at a time
         /// </summary>
-        public void ReadPixel(Pixel pixel)
+        public void ReadPixel(IPixel pixel)
         {
             try
             {
                 if ((fileReader == null) || (!this.open))
-                     throw new System.ApplicationException("Raster not open for reading");
+                    throw new System.ApplicationException("Raster not open for reading");
 
                 if (currPixel >= totalPixels)
                     throw new System.ApplicationException("Reading beyond end of pixel data");
@@ -446,17 +446,17 @@ namespace Landis.Raster.Erdas74
                 int bandCount = pixel.BandCount;
                 for (int bandNum = 0; bandNum < bandCount; bandNum++)
                 {
-                    PixelBand band = pixel[bandNum];
+                    IPixelBand band = pixel[bandNum];
 
                     // calc this pixelband's location in file
-                    int location = PixelBandLocation(currPixel,bandNum);
+                    int location = PixelBandLocation(currPixel, bandNum);
 
                     // seek to correct pixel spot
-                    this.fileReader.BaseStream.Seek(location,SeekOrigin.Begin);
+                    this.fileReader.BaseStream.Seek(location, SeekOrigin.Begin);
 
                     byte[] bytes = this.fileReader.ReadBytes(bandSize);
 
-                    band.SetBytes(bytes,0);
+                    band.SetBytes(bytes, 0);
 
                 }
 
@@ -475,23 +475,23 @@ namespace Landis.Raster.Erdas74
         private int PixelBandLocation(int pixelNum, int bandNum)
         {
             int cols = dimensions.Columns;
-            
+
             int currRow = pixelNum / cols;
-            
+
             int currCol = pixelNum % cols;
 
             // all pxels start beyond header            
             int location = HeaderSize;
-            
+
             // increment for each complete row
             location += currRow * bandCount * cols * bandSize;
-            
+
             // increment for each complete band in curr row
             location += bandNum * cols * bandSize;
-            
+
             // increment for completed cols in band
             location += currCol * bandSize;
-            
+
             return location;
         }
 
@@ -510,7 +510,7 @@ namespace Landis.Raster.Erdas74
         {
             get { return bandCount; }
         }
-        
+
         /// <summary>
         /// An Erdas GIS or LAN file has one type that applies equally to all bands
         /// </summary>
@@ -541,7 +541,7 @@ namespace Landis.Raster.Erdas74
                 this.open = false;
             }
         }
-        
+
         /// <summary>
         /// Returned read/write mode of file
         /// </summary>
@@ -549,7 +549,7 @@ namespace Landis.Raster.Erdas74
         {
             get { return this.mode; }
         }
-        
+
         /// <summary>
         /// custom destructor needed to close resources        
         /// </summary>

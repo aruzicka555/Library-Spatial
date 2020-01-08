@@ -13,7 +13,7 @@ namespace Landis.Raster.Erdas74
     //   throws an exception. Writing too few pixels is not checked.
     /// </summary>
     public class ErdasOutputRaster<T> : OutputRaster, IOutputRaster<T>
-        where T : Pixel, new()
+        where T : IPixel, new()
     {
         private ErdasImageFile image;  // the underlying image
         private bool disposed = false; // track whether resources have been released
@@ -49,7 +49,7 @@ namespace Landis.Raster.Erdas74
             // check bands 1 to n-1            
             for (int i = 1; i < bandCount; i++)
             {
-                PixelBand band = desiredLayout[i];
+                IPixelBand band = desiredLayout[i];
                 
                 if (band.TypeCode != bandType)
                     throw new System.ApplicationException("OutputRasters with mixed band types not supported");
@@ -69,7 +69,7 @@ namespace Landis.Raster.Erdas74
         /// Write a pixel to the OutputRaster
         /// Must not call more than rows*cols times
         /// </summary>
-        public void WriteBufferPixel(T pixel)
+        public void WritePixel(T pixel)
         {
             if (disposed)
                 throw CreateObjectDisposedException();

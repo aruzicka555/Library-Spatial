@@ -74,7 +74,7 @@ namespace Landis.RasterIO
         ///     </list>
         /// </exception>
         IInputRaster<TPixel> OpenRaster<TPixel>(string path)
-            where TPixel : Pixel, new();
+            where TPixel : IPixel, new();
 
         //---------------------------------------------------------------------
 
@@ -136,6 +136,6 @@ namespace Landis.RasterIO
         IOutputRaster<TPixel> CreateRaster<TPixel>(string path,
                                                    Dimensions dimensions,
                                                    IMetadata metadata)
-             where TPixel : Pixel, new();
+             where TPixel : IPixel, new();
     }
 }

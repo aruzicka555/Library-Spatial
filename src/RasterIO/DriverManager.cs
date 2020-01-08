@@ -28,7 +28,7 @@ namespace Landis.RasterIO
         //---------------------------------------------------------------------
 
         public IInputRaster<TPixel> OpenRaster<TPixel>(string path)
-            where TPixel : Pixel, new()
+            where TPixel : IPixel, new()
         {
             IDriver driver = GetDriver(path, FileAccess.Read);
             return driver.OpenRaster<TPixel>(path);
@@ -36,10 +36,10 @@ namespace Landis.RasterIO
 
         //---------------------------------------------------------------------
 
-        public IOutputRaster<TPixel> CreateRaster<TPixel>(string     path,
+        public IOutputRaster<TPixel> CreateRaster<TPixel>(string path,
                                                           Dimensions dimensions,
-                                                          IMetadata  metadata)
-             where TPixel : Pixel, new()
+                                                          IMetadata metadata)
+             where TPixel : IPixel, new()
         {
             IDriver driver = GetDriver(path, FileAccess.Write);
             return driver.CreateRaster<TPixel>(path, dimensions, metadata);
@@ -47,7 +47,7 @@ namespace Landis.RasterIO
 
         //---------------------------------------------------------------------
 
-        private IDriver GetDriver(string     path,
+        private IDriver GetDriver(string path,
                                   FileAccess fileAccess)
         {
             string format = Path.GetExtension(path);
@@ -60,13 +60,16 @@ namespace Landis.RasterIO
 
             //  Find first driver that supports the requested access
             DriverInfo firstDriver = null;
-            foreach (DriverInfo driverInfo in drivers) {
-                if ((driverInfo[format] & fileAccess) == fileAccess) {
+            foreach (DriverInfo driverInfo in drivers)
+            {
+                if ((driverInfo[format] & fileAccess) == fileAccess)
+                {
                     firstDriver = driverInfo;
                     break;
                 }
             }
-            if (firstDriver == null) {
+            if (firstDriver == null)
+            {
                 string action;
                 if (fileAccess == FileAccess.Read)
                     action = "read";
@@ -77,7 +80,8 @@ namespace Landis.RasterIO
             }
 
             IDriver driver;
-            if (! loadedDrivers.TryGetValue(firstDriver.Name, out driver)) {
+            if (!loadedDrivers.TryGetValue(firstDriver.Name, out driver))
+            {
                 driver = Loader.Load<IDriver>(firstDriver);
                 loadedDrivers[firstDriver.Name] = driver;
             }
@@ -86,7 +90,7 @@ namespace Landis.RasterIO
 
         //---------------------------------------------------------------------
 
-        private ApplicationException NewAppException(string          message,
+        private ApplicationException NewAppException(string message,
                                                      params object[] mesgArgs)
         {
             return new ApplicationException(string.Format("Error: " + message,
