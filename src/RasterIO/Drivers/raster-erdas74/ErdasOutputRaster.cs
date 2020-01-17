@@ -1,7 +1,7 @@
 using Landis.RasterIO;
 using Landis.SpatialModeling;
 
-namespace Landis.Raster.Erdas74
+namespace Landis.RaserIO.Erdas74
 {
     /// <summary>
     ///  An OutputRaster is a parameterized class that is used for

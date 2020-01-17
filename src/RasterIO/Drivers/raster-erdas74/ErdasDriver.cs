@@ -1,7 +1,7 @@
 using Landis.RasterIO;
 using Landis.SpatialModeling;
 
-namespace Landis.Raster.Erdas74
+namespace Landis.RaserIO.Erdas74
 {
     /// <summary>
     /// Driver for ERDAS 7.4 version rasters (.gis and .lan)

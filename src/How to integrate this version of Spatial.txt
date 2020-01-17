@@ -1,0 +1,85 @@
+1: Check the project for files/classes named "UIntPixel", "ShortPixel", or any variation of "{x}Pixel". If the class
+declaration looks something like "ShortPixel : Pixel" change it to "ShortPixel : SingleBandPixel<short>". The word in the
+angled brackets <> should be the word right before Pixel, so if it is UIntPixel use uint. Here is a code snippet of what
+the class may look like when you find it: 
+
+public class ShortPixel : Pixel
+    {
+        public Band<short> MapCode  = "The numeric code for each raster cell";
+
+        public ShortPixel()
+        {
+            SetBands(MapCode);
+        }
+    }
+
+It should look like this after changing the first line and fixing the errors:
+
+public class ShortPixel : SingleBandPixel<short>
+    {
+        public ShortPixel()
+            : base()
+        {
+        }
+
+        //---------------------------------------------------------------------
+
+        public ShortPixel(short band0)
+            : base(band0)
+        {
+        }
+    }
+
+After this is done, a couple more errors will pop up in Visual Studio. If these classes are not present, that is also fine.
+Proceed to the next steps.
+
+2: Search for references to IInputRaster. Code using this will have to be changed, the variable associated with it tends to
+be named simply "map". You may see a line of code looking like: 
+
+UIntPixel pixel = map.BufferPixel;
+
+Remove this line, look for the foreach loop and remove the code that looks like this at the top of the loop:
+
+map.ReadBufferPixel();
+uint mapCode = pixel.MapCode.Value;
+
+Replace with this:
+
+UIntPixel pixel = map.ReadPixel();
+uint mapCode = pixel.Band0;
+
+Note that it does not necessarily have to be UIntPixel, it could be ShortPixel, IntPixel, etc. These lines might not be right
+next to each other in the code, but the lines two snippets above should be replaced with the respective code lines right
+below it.
+
+3: Search for references to IOutputRaster. The variable associated with it tends to be called outputRaster. You will
+have to change the declaration of this raster from:
+
+using (IOutputRaster<ShortPixel> outputRaster = Model.Core.CreateRaster<ShortPixel>(path, Model.Core.Landscape.Dimensions))
+
+to:
+
+using (IOutputRaster<ShortPixel> outputRaster = Model.Core.CreateRaster<ShortPixel>(path, Model.Core.Landscape.Dimensions, 
+                Model.Core.LandscapeMapMetadata))
+
+Remove any line that looks like this:
+
+ShortPixel pixel = outputRaster.BufferPixel;
+
+Also remove this line:
+
+pixel.MapCode.Value = x;
+
+And replace with: 
+
+outputRaster.WritePixel(new ShortPixel((short)x));
+
+Note again it may not be a short pixel, it could be int, uint, etc. But whatever the case, make sure you replace the "Short"
+above with whatever type is used in the using (IOutputRaster<.... code.
+
+Also remove any line looking like this:
+
+outputRaster.WriteBufferPixel();
+
+And that should do it. If a concrete example is desired, look at the link below:
+

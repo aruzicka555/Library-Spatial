@@ -1,5 +1,5 @@
 
-namespace Landis.Raster.Erdas74
+namespace Landis.RaserIO.Erdas74
 {
     /// <summary>
     /// Projections is used to map ERDAS projection names to ERDAS
