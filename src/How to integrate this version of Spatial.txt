@@ -82,4 +82,4 @@ Also remove any line looking like this:
 outputRaster.WriteBufferPixel();
 
 And that should do it. If a concrete example is desired, look at the link below:
-
+https://github.com/aruzicka555/Library-Harvest-Mgmt/commit/1417776b794024f8c7c127046ca1085bac5cb65f
