@@ -12,7 +12,7 @@ using Landis.RasterIO;
 using System.IO;
 using Landis.SpatialModeling;
 
-namespace Landis.RaserIO.Erdas74
+namespace Landis.RasterIO.Erdas74
 {
     public class ErdasImageFile
     {
