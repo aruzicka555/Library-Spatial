@@ -1,6 +1,4 @@
-// Copyright 2004-2006 University of Wisconsin
-// All rights reserved. 
-//
+// Copyright LANDIS-II Foundation
 // Contributors:
 //   James Domingo, UW-Madison, Forest Landscape Ecology Lab
 
