@@ -13,5 +13,8 @@
     <RepositoryUrl>https://github.com/LANDIS-II-Foundation/Library-Spatial</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>LANDIS-II;Landis;Spatial Modeling</PackageTags>
+    <AssemblyVersion>2.0.1</AssemblyVersion>
+    <FileVersion>2.0.1</FileVersion>
+    <Version>2.0.1</Version>
   </PropertyGroup>
 </Project>
