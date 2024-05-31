@@ -1,4 +1,4 @@
-// Copyright 2005-2006 University of Wisconsin
+// Copyright The LANDIS-II Foundation
 // All rights reserved. 
 //
 // Contributors:
