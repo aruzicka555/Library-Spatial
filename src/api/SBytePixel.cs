@@ -3,16 +3,13 @@
 
 namespace Landis.SpatialModeling
 {
-    public class SBytePixel : SingleBandPixel<sbyte>
+    public class SBytePixel : Pixel
     {
-        public SBytePixel()
-            : base()
-        {
-        }
+        public Band<sbyte> MapCode = "The numeric code for each raster cell";
 
-        public SBytePixel(sbyte band0)
-            : base(band0)
+        public SBytePixel()
         {
+            SetBands(MapCode);
         }
     }
 }

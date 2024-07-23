@@ -1,4 +1,9 @@
-using Landis.Utilities;
+// Copyright The LANDIS-II Foundation
+// All rights reserved. 
+//
+// Contributors:
+//   James Domingo, UW-Madison, Forest Landscape Ecology Lab
+
 using Landis.SpatialModeling;
 
 namespace Landis.RasterIO

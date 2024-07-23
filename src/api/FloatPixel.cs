@@ -3,16 +3,13 @@
 
 namespace Landis.SpatialModeling
 {
-    public class FloatPixel : SingleBandPixel<float>
+    public class FloatPixel : Pixel
     {
-        public FloatPixel()
-            : base()
-        {
-        }
+        public Band<float> MapCode = "The numeric code for each raster cell";
 
-        public FloatPixel(float band0)
-            : base(band0)
+        public FloatPixel()
         {
+            SetBands(MapCode);
         }
     }
 }

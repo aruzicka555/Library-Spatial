@@ -3,16 +3,13 @@
 
 namespace Landis.SpatialModeling
 {
-    public class ShortPixel : SingleBandPixel<short>
+    public class ShortPixel : Pixel
     {
-        public ShortPixel()
-            : base()
-        {
-        }
+        public Band<short> MapCode = "The numeric code for each raster cell";
 
-        public ShortPixel(short band0)
-            : base(band0)
+        public ShortPixel()
         {
+            SetBands(MapCode);
         }
     }
 }
