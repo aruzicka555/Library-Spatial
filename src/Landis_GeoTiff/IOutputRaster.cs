@@ -14,6 +14,6 @@ namespace Landis_GeoTiff
 
         Dimensions Dimensions { get; set; }
 
-        public void SaveAs(string fileName);
+        void SaveAs(string fileName);
     }
 }

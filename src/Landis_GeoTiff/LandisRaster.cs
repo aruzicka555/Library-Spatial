@@ -1,6 +1,7 @@
 ﻿using GeoTBelt.GeoTiff;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace Landis_GeoTiff
         {
             try
             {
-                if (fileName is not null)
+                if (fileName != null)
                     theRaster.SaveAs(theRaster.fileName);
                 else
                     theRaster.SaveAs(theRaster.fileName);
@@ -62,7 +63,7 @@ namespace Landis_GeoTiff
 
         public int Count()
         {
-            if (theRaster is not null)
+            if (theRaster != null)
                 return theRaster.numRows * theRaster.numColumns;
             return 0;
         }
