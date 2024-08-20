@@ -1,4 +1,5 @@
 ﻿using GeoTBelt.GeoTiff;
+using Landis.SpatialModeling;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Landis_GeoTiff
+namespace Landis.GeoTiff
 {
     public class LandisRaster<T> : IInputRaster<T>, IOutputRaster<T>
         where T : struct

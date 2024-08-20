@@ -1,4 +1,6 @@
-﻿namespace Landis_GeoTiff
+﻿using Landis.SpatialModeling;
+
+namespace Landis.GeoTiff
 {
     public interface IInputRaster<T> : System.IDisposable
         where T : struct

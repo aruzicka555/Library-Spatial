@@ -2,10 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Landis.GeoTiff</AssemblyName>
+    <RootNamespace>Landis.GeoTiff</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GeoTBelt" Version="0.1.2" />
+    <PackageReference Include="GeoTBelt" Version="0.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\api\Landis_SpatialModeling.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Landis.SpatialModeling;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Landis_GeoTiff
+namespace Landis.GeoTiff
 {
     public interface IOutputRaster<T> : System.IDisposable
         where T : struct

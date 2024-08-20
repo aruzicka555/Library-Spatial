@@ -1,12 +1,13 @@
 ﻿using GeoTBelt.GeoTiff;
 using GeoTBelt;
+using Landis.SpatialModeling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Landis_GeoTiff
+namespace Landis.GeoTiff
 {
     public static class RasterFactory
     {
